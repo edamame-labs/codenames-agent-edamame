@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ClueCast — play Codenames with AI</title>
+    <meta name="description" content="Play ClueCast, Team Edamame's listener-gated Codenames game." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css?v=20260908-report1" />
+  </head>
+  <body>
+    <canvas id="confetti"></canvas>
+    <div class="space-grid" aria-hidden="true"></div>
+
+    <main>
+      <header class="hero">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64">
+            <circle class="mark-ring" cx="32" cy="32" r="28"/>
+            <path class="mark-arc" d="M21 36c7-14 16-16 24-8"/>
+            <circle class="mark-node node-red" cx="20" cy="37" r="4"/>
+            <circle class="mark-node node-blue" cx="44" cy="27" r="4"/>
+          </svg>
+        </div>
+        <h1 class="logo">ClueCast</h1>
+        <a class="author-chip" href="https://edamame-labs.github.io/codenames-agent-edamame/">Team Edamame</a>
+        <button id="report-open" class="report-open" type="button" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.3 3.9 2.4 18a2 2 0 0 0 1.8 3h15.6a2 2 0 0 0 1.8-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+          Report a problem
+        </button>
+        <div class="network-status"><i></i>Live</div>
+      </header>
+
+      <!-- SETUP -->
+      <section id="setup" class="panel">
+        <div class="section-label"><span>01</span> Choose what you will do</div>
+        <div class="modes primary-modes">
+          <button class="mode-card versus-operative recommended" data-preset="versus_operative" aria-label="Play Versus as the Red Operative">
+            <span class="mode-copy">
+              <span class="mode-role">Operative <em>Quick start</em></span>
+              <span class="mode-title">You pick the cards</span>
+              <span class="mode-rule">You are Red. Blue cards help the enemy win.</span>
+            </span>
+            <span class="mode-faces" aria-hidden="true">
+              <span class="role-face you flip"><img src="/assets/cast/you-operative.webp?v=20260906-apple34" alt="" /><b>Pick</b></span>
+              <span class="role-face hint"><img src="/assets/cast/ally-cm.webp?v=20260906-apple34" alt="" /><b>Clue</b></span>
+              <span class="role-face hint foe"><img src="/assets/cast/enemy-cm.webp?v=20260906-apple34" alt="" /><b>Clue</b></span>
+              <span class="role-face flip"><img src="/assets/cast/enemy-op.webp?v=20260906-apple34" alt="" /><b>Pick</b></span>
+            </span>
+          </button>
+          <button class="mode-card versus-spymaster" data-preset="versus_spymaster" aria-label="Play Versus as the Red Spymaster">
+            <span class="mode-copy">
+              <span class="mode-role">Spymaster</span>
+              <span class="mode-title">You give the clues</span>
+              <span class="mode-rule">You are Red. Blue cards help the enemy win.</span>
+            </span>
+            <span class="mode-faces" aria-hidden="true">
+              <span class="role-face you hint"><img src="/assets/cast/you-operative.webp?v=20260906-apple34" alt="" /><b>Clue</b></span>
+              <span class="role-face flip"><img src="/assets/cast/ally-op.webp?v=20260906-apple34" alt="" /><b>Pick</b></span>
+              <span class="role-face hint foe"><img src="/assets/cast/enemy-cm.webp?v=20260906-apple34" alt="" /><b>Clue</b></span>
+              <span class="role-face flip"><img src="/assets/cast/enemy-op.webp?v=20260906-apple34" alt="" /><b>Pick</b></span>
+            </span>
+          </button>
+        </div>
+
+        <div class="special-heading"><span>Other ways to play</span></div>
+        <div class="modes special-modes">
+          <button class="mode-card cooperative" data-preset="cooperative" aria-label="Co-op: clear all Red agents in as few clues as possible">
+            <span class="mode-copy">
+              <span class="mode-role">Co-op</span>
+              <span class="mode-title">You pick. Ally clues.</span>
+              <span class="mode-rule">You are Red. Wrong cards end the turn; the assassin or all Blue cards lose.</span>
+            </span>
+            <span class="mode-faces" aria-hidden="true">
+              <span class="role-face you flip"><img src="/assets/cast/you-operative.webp?v=20260906-apple34" alt="" /><b>Pick</b></span>
+              <span class="role-face hint"><img src="/assets/cast/ally-cm.webp?v=20260906-apple34" alt="" /><b>Clue</b></span>
+            </span>
+          </button>
+          <button class="mode-card spectate" data-preset="spectate" aria-label="Watch two AI teams play">
+            <span class="mode-copy">
+              <span class="mode-role">Spectate</span>
+              <span class="mode-title">Watch both AI teams</span>
+              <span class="mode-rule">You do not play. The full key stays visible.</span>
+            </span>
+            <span class="mode-faces" aria-hidden="true">
+              <span class="role-face hint"><img src="/assets/cast/ally-cm.webp?v=20260906-apple34" alt="" /><b>Clue</b></span>
+              <span class="role-face flip"><img src="/assets/cast/ally-op.webp?v=20260906-apple34" alt="" /><b>Pick</b></span>
+              <span class="role-face hint foe"><img src="/assets/cast/enemy-cm.webp?v=20260906-apple34" alt="" /><b>Clue</b></span>
+              <span class="role-face flip"><img src="/assets/cast/enemy-op.webp?v=20260906-apple34" alt="" /><b>Pick</b></span>
+            </span>
+          </button>
+        </div>
+
+        <p id="setup-error" class="setup-error hidden" role="alert"></p>
+        <button id="advanced-toggle" class="link-btn" type="button" aria-controls="advanced" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 4v6M7 14v6"/></svg>
+          Custom
+        </button>
+        <div id="advanced" class="advanced hidden">
+          <div class="row">
+            <label>Game
+              <select id="mode">
+                <option value="two">Versus (two teams)</option>
+                <option value="single">Co-op (one team)</option>
+              </select>
+            </label>
+          </div>
+          <p class="custom-note">Choose one Human seat, or leave every seat as AI to spectate.</p>
+          <div class="seats">
+            <div class="seat-group">
+              <h3>Red team</h3>
+              <label>Spymaster <select id="red_cm"><option value="ai">AI</option><option value="human">Human</option></select></label>
+              <label>Operative <select id="red_g"><option value="ai">AI</option><option value="human">Human</option></select></label>
+            </div>
+            <div class="seat-group" id="blue-seats">
+              <h3>Blue team</h3>
+              <label>Spymaster <select id="blue_cm"><option value="ai">AI</option><option value="human">Human</option></select></label>
+              <label>Operative <select id="blue_g"><option value="ai">AI</option><option value="human">Human</option></select></label>
+            </div>
+          </div>
+          <div class="row"><button id="start" class="primary">Start</button></div>
+        </div>
+      </section>
+
+      <!-- GAME -->
+      <section id="game" class="game-shell hidden">
+        <div class="hud">
+          <div id="hud-red" class="team-hud red"></div>
+          <div class="hud-center">
+            <span id="turn-pill" class="turn-pill" aria-live="polite"></span>
+            <button id="newgame" class="icon-btn" aria-label="New game" title="New game">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 019-9 9 9 0 016.7 3M21 3v6h-6M21 12a9 9 0 01-9 9 9 9 0 01-6.7-3M3 21v-6h6"/></svg>
+            </button>
+          </div>
+          <div id="hud-blue" class="team-hud blue"></div>
+        </div>
+
+        <div class="arena">
+          <aside id="roster-left" class="player-rail left" aria-label="Left seats"></aside>
+          <div class="table-zone">
+            <div id="command" class="command" aria-live="polite">
+              <div id="cluebar" class="command-clue" aria-live="polite"></div>
+              <div class="command-self">
+                <div class="command-copy">
+                  <span id="command-kicker" class="command-kicker"></span>
+                  <strong id="command-title"></strong>
+                  <span id="command-sub" class="command-sub"></span>
+                </div>
+                <div id="controls" class="command-actions"></div>
+              </div>
+              <div id="hint-ideas" class="hint-ideas hidden"></div>
+              <div id="ai-thinking" class="command-think hidden" role="status" aria-live="polite">
+                <div class="thinking-avatar">
+                  <span class="thinking-ring" aria-hidden="true"></span>
+                  <img id="thinking-image" src="/assets/cast/hint.webp" alt="" />
+                </div>
+                <div class="thinking-copy">
+                  <span id="thinking-badge" class="thinking-badge">AI</span>
+                  <strong id="thinking-title">Thinking</strong>
+                  <span id="thinking-sub">Looking for word connections</span>
+                  <span class="thinking-progress" aria-hidden="true"><i></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="felt"><div id="board" class="board"></div></div>
+            <div id="toast" class="toast hidden"></div>
+          </div>
+          <aside id="roster-right" class="player-rail right" aria-label="Right seats"></aside>
+        </div>
+
+        <details class="timeline-wrap">
+          <summary aria-label="Open transmission log">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10"/></svg>
+            Log
+          </summary>
+          <div id="timeline" class="timeline"></div>
+        </details>
+      </section>
+    </main>
+
+    <dialog id="report-dialog" class="report-dialog" aria-labelledby="report-title" aria-describedby="report-copy">
+      <form id="report-form">
+        <div class="report-heading">
+          <div>
+            <span class="report-kicker">Feedback</span>
+            <h2 id="report-title">Report a problem</h2>
+          </div>
+          <button id="report-close" class="report-close" type="button" aria-label="Close problem report">×</button>
+        </div>
+        <p id="report-copy">Tell us what happened. If a game is active, a privacy-safe game log is saved automatically and sent to Team Edamame.</p>
+        <label class="report-field" for="report-message">
+          <span>What went wrong?</span>
+          <textarea id="report-message" name="message" maxlength="2000" rows="6" required placeholder="What did you expect, and what happened instead?"></textarea>
+        </label>
+        <label class="report-field" for="report-contact">
+          <span>Your email <em>optional</em></span>
+          <input id="report-contact" name="contact" type="email" maxlength="254" autocomplete="email" placeholder="So we can follow up" />
+        </label>
+        <input id="report-website" name="website" type="hidden" value="" />
+        <p id="report-status" class="report-status" role="status" aria-live="polite"></p>
+        <div class="report-actions">
+          <button id="report-cancel" class="ghost" type="button">Cancel</button>
+          <button id="report-send" class="primary" type="submit">Save log &amp; send</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="overlay" class="overlay hidden">
+      <div class="overlay-card">
+        <div id="overlay-state" class="overlay-state"></div>
+        <div id="overlay-symbol" class="overlay-symbol" aria-hidden="true"></div>
+        <div id="overlay-title" class="overlay-title"></div>
+        <div id="overlay-sub" class="overlay-sub"></div>
+        <div id="overlay-stats" class="overlay-stats"></div>
+        <button id="overlay-again" class="primary">Play again</button>
+      </div>
+    </div>
+
+    <footer class="site-credit">
+      ClueCast by JXU ·
+      <a href="https://edamame-labs.github.io/codenames-agent-edamame/">Team Edamame</a>
+      · based on its entry in the
+      <a href="https://cog2026.org/competitions" target="_blank" rel="noopener">CoG 2026</a>
+      Codenames competition.
+    </footer>
+
+    <script src="/app.js?v=20260908-report1"></script>
+  </body>
+</html>

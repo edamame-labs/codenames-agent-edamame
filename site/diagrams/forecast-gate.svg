@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 960 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="forecast-gate-title forecast-gate-desc">
+      <title id="forecast-gate-title">Forecast gate</title>
+      <desc id="forecast-gate-desc">A key-aware clue with two predicted guesses is accepted only after legality and own-card checks. An unsafe first guess rejects the clue; an unsafe second guess shortens it to one.</desc>
+      <defs>
+        <style>@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;family=Crimson+Pro:ital,wght@0,400;0,600;1,400&amp;family=Geist+Mono:wght@400;500;600&amp;display=swap');</style>
+      
+        <marker id="forecast-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#475569"/></marker>
+        <marker id="forecast-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b45309"/></marker>
+        <marker id="forecast-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#1e3a5f"/></marker>
+      </defs>
+      <rect width="100%" height="100%" fill="#f8fafc"/>
+
+      <line x1="400" y1="88" x2="400" y2="128" stroke="#475569" stroke-width="1.2" marker-end="url(#forecast-arrow)"/>
+      <line x1="400" y1="224" x2="400" y2="264" stroke="#475569" stroke-width="1.2" marker-end="url(#forecast-arrow)"/>
+      <line x1="400" y1="360" x2="400" y2="400" stroke="#475569" stroke-width="1.2" marker-end="url(#forecast-arrow)"/>
+      <line x1="400" y1="496" x2="400" y2="536" stroke="#b45309" stroke-width="1.4" marker-end="url(#forecast-arrow-accent)"/>
+      <line x1="512" y1="448" x2="640" y2="448" stroke="#475569" stroke-width="1.2" marker-end="url(#forecast-arrow)"/>
+      <path d="M 288,176 H 88 Q 80,176 80,184 V 536" fill="none" stroke="#475569" stroke-width="1.2" marker-end="url(#forecast-arrow)"/>
+      <path d="M 288,312 H 168 Q 160,312 160,320 V 536" fill="none" stroke="#475569" stroke-width="1.2" marker-end="url(#forecast-arrow)"/>
+
+      <rect x="412" y="232" width="32" height="12" rx="2" fill="#f8fafc"/>
+      <text x="428" y="241" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">YES</text>
+      <rect x="412" y="372" width="32" height="12" rx="2" fill="#f8fafc"/>
+      <text x="428" y="381" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">YES</text>
+      <rect x="412" y="508" width="32" height="12" rx="2" fill="#f8fafc"/>
+      <text x="428" y="517" fill="#b45309" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">YES</text>
+      <rect x="196" y="156" width="24" height="12" rx="2" fill="#f8fafc"/>
+      <text x="208" y="165" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">NO</text>
+      <rect x="196" y="292" width="24" height="12" rx="2" fill="#f8fafc"/>
+      <text x="208" y="301" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">NO</text>
+      <rect x="560" y="428" width="24" height="12" rx="2" fill="#f8fafc"/>
+      <text x="572" y="437" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">NO</text>
+
+      <rect x="300" y="40" width="200" height="48" rx="24" fill="rgba(15,23,42,0.03)" stroke="rgba(15,23,42,0.30)" stroke-width="1"/>
+      <text x="400" y="68" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">Clue + 2 words</text>
+
+      <polygon points="400,128 512,176 400,224 288,176" fill="#ffffff" stroke="#0f172a" stroke-width="1"/>
+      <text x="400" y="180" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">Legal?</text>
+
+      <polygon points="400,264 512,312 400,360 288,312" fill="#ffffff" stroke="#0f172a" stroke-width="1"/>
+      <text x="400" y="316" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">1st ours?</text>
+
+      <polygon points="400,400 512,448 400,496 288,448" fill="#ffffff" stroke="#0f172a" stroke-width="1"/>
+      <text x="400" y="452" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">2nd ours?</text>
+
+      <rect x="640" y="424" width="160" height="48" rx="24" fill="rgba(15,23,42,0.03)" stroke="rgba(15,23,42,0.30)" stroke-width="1"/>
+      <text x="720" y="452" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">Play 1</text>
+
+      <rect x="40" y="536" width="160" height="48" rx="24" fill="rgba(15,23,42,0.03)" stroke="rgba(15,23,42,0.30)" stroke-width="1"/>
+      <text x="120" y="564" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">Backup</text>
+
+      <rect x="300" y="536" width="200" height="56" rx="28" fill="rgba(180,83,9,0.08)" stroke="#b45309" stroke-width="1"/>
+      <text x="400" y="568" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">Play 2</text>
+
+      <line x1="40" y1="640" x2="920" y2="640" stroke="rgba(15,23,42,0.12)" stroke-width="0.8"/>
+      <text x="40" y="656" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">LEGEND · SHAPE CARRIES TYPE</text>
+      <rect x="40" y="672" width="24" height="12" rx="6" fill="rgba(15,23,42,0.03)" stroke="rgba(15,23,42,0.30)" stroke-width="1"/>
+      <text x="72" y="682" fill="#475569" font-size="8" font-family="'Atkinson Hyperlegible', sans-serif">Start / end</text>
+      <polygon points="212,678 224,672 236,678 224,684" fill="#ffffff" stroke="#0f172a" stroke-width="1"/>
+      <text x="248" y="682" fill="#475569" font-size="8" font-family="'Atkinson Hyperlegible', sans-serif">Decision</text>
+      <line x1="360" y1="678" x2="388" y2="678" stroke="#b45309" stroke-width="1.4" marker-end="url(#forecast-arrow-accent)"/>
+      <text x="396" y="682" fill="#475569" font-size="8" font-family="'Atkinson Hyperlegible', sans-serif">Keep the pair</text>
+    </svg>

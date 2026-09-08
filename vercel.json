@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "functions": {
+    "api/game.py": {
+      "maxDuration": 120,
+      "includeFiles": "submission/**"
+    },
+    "api/report.js": {
+      "maxDuration": 30
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.venv/
+tests/
+docs/
+evaluation/
+scripts/
+.github/
+uv.lock
+pyproject.toml
+.python-version
+*.log
+__pycache__/

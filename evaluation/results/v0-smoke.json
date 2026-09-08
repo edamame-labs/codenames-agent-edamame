@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "status": "historical_smoke_evidence",
+  "team": "Edamame",
+  "competition": "CoG 2026 Codenames AI Competition",
+  "warning": "One game per mode checks wiring, safety, and latency; it is not a strength estimate or the official tournament result.",
+  "response_limit_ms": 60000,
+  "games": [
+    {
+      "mode": "Single-Team / self",
+      "result": "win",
+      "metric": "clues",
+      "metric_value": 6,
+      "assassin": 0,
+      "max_callback_ms": 21300
+    },
+    {
+      "mode": "Single-Team / foreign teammate",
+      "result": "win",
+      "metric": "clues",
+      "metric_value": 9,
+      "assassin": 0,
+      "max_callback_ms": 13900
+    },
+    {
+      "mode": "Two-Team / self",
+      "result": "red_win",
+      "metric": "red_win",
+      "metric_value": 1,
+      "assassin": 0,
+      "max_callback_ms": 31700
+    },
+    {
+      "mode": "Two-Team / versus",
+      "result": "red_win",
+      "metric": "red_win",
+      "metric_value": 1,
+      "assassin": 0,
+      "max_callback_ms": 45200,
+      "primary_timeouts": 3,
+      "backup_recoveries": 3
+    }
+  ],
+  "uncapped_replay": {
+    "purpose": "Distinguish honest model latency from stalled requests.",
+    "codemaster_calls": 11,
+    "median_callback_ms": 11200,
+    "max_callback_ms": 21900,
+    "cap_ms": 90000,
+    "timeouts": 0
+  }
+}

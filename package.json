@@ -1,0 +1,15 @@
+{
+  "name": "cluecast-web",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test tests/test_report.mjs"
+  },
+  "dependencies": {
+    "@vercel/blob": "2.8.0",
+    "resend": "6.26.0"
+  }
+}

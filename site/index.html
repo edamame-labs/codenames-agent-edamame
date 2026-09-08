@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Listener-gated clues — Team Edamame</title>
+    <meta name="description" content="Team Edamame's 1st-overall CoG 2026 submission and ClueCast, its improved listener-gated online game." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=4" />
+  </head>
+  <body>
+    <header class="top">
+      <a class="wordmark" href="https://github.com/edamame-labs/codenames-agent-edamame">Team Edamame</a>
+      <nav>
+        <a class="nav-demo" href="https://codenames-agent-cluecast.vercel.app">Play ClueCast</a>
+        <a href="https://github.com/edamame-labs/codenames-agent-edamame">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <p class="running">1st overall · IEEE CoG 2026 Codenames AI Competition</p>
+      <h1>Listener-gated clues</h1>
+      <p class="thesis">The model proposes. Code decides.</p>
+      <p class="abstract">
+        An LLM can invent a clue, but its output should not go straight to
+        the board. Before a clue is announced, Python checks what a teammate
+        is likely to guess. It then plays the clue, reduces the guess count,
+        or rejects it.
+      </p>
+      <a class="primary-action hero-demo" href="https://codenames-agent-cluecast.vercel.app">Play ClueCast</a>
+
+      <section class="idea" aria-labelledby="borrowed">
+        <h2 id="borrowed">What we borrowed</h2>
+        <p>
+          Google DeepMind's
+          <a href="https://arxiv.org/abs/2510.04542"><i>Code World Models for General Game Playing</i></a>
+          (Wolfgang Lehrach et al., 2025) separates model output from game
+          action: an LLM writes an executable world model, then search
+          chooses the move. We borrowed that separation—not the algorithm.
+        </p>
+      </section>
+
+      <div class="split">
+        <div>
+          <h3>We did</h3>
+          <ul>
+            <li>Treat every generated clue as a proposal.</li>
+            <li>Check its predicted guess order against the hidden board labels.</li>
+            <li>Let Python accept, shorten, or reject it.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>We did not</h3>
+          <ul>
+            <li>Generate an executable game model.</li>
+            <li>Run MCTS or search the clue space.</li>
+            <li>Call the listener forecast a Code World Model.</li>
+          </ul>
+        </div>
+      </div>
+
+      <figure class="graph core-graph">
+        <img src="diagrams/core.svg?v=2" width="480" height="320" fetchpriority="high" alt="The model proposes a clue. A gate checks the predicted listener path against the key, then rejects the clue, shortens it, or plays it." />
+        <figcaption>Figure 1. The listener gate. The model proposes; code decides.</figcaption>
+      </figure>
+
+      <section class="release" aria-labelledby="published">
+        <h2 id="published">Published here</h2>
+        <div class="release-grid">
+          <article>
+            <p class="label">IEEE CoG 2026</p>
+            <h3>Team Edamame submission</h3>
+            <p>A credential-free copy of the policy entered in the competition.</p>
+            <a class="action" href="https://github.com/edamame-labs/codenames-agent-edamame/tree/main/submission">Browse submission</a>
+          </article>
+          <article class="featured">
+            <p class="label">Improved version</p>
+            <h3>ClueCast</h3>
+            <p>A later gate with two independent, key-blind listener simulations.</p>
+            <a class="action primary-action" href="https://codenames-agent-cluecast.vercel.app">Play ClueCast</a>
+          </article>
+        </div>
+      </section>
+
+      <p class="details-label">Implementation details</p>
+
+      <section>
+        <h2><span>1</span> Competition submission</h2>
+        <p>
+          The scoring makes caution rational: a win is scored by clue count,
+          a loss scores 25, an illegal action can disqualify the entry, and a
+          callback over 60 seconds fails. The agent therefore announces at
+          most 2, never takes a bonus guess, and always has a legal fallback.
+        </p>
+        <p>
+          A primary request (45s) and a backup request (15s) start together.
+          The agent waits at most 50 seconds for the primary, then uses a
+          ready backup or a deterministic legal clue.
+        </p>
+        <figure class="graph detail-graph" tabindex="0" aria-label="Scrollable timing diagram">
+          <img src="diagrams/clock.svg?v=2" width="960" height="500" loading="lazy" alt="The board starts a primary and backup request together. A usable answer is gated by 50 seconds; otherwise the agent plays a deterministic legal clue." />
+          <figcaption>Figure 2. Parallel generation under a 50s wall clock.</figcaption>
+        </figure>
+        <p>
+          The same model response contains both the clue and the teammate's
+          first two predicted guesses. Because that model can see the key,
+          this is a forecast, not an independent simulation. An unsafe first
+          guess rejects the clue; an unsafe second guess lowers the number to
+          1; two safe guesses keep the proposal.
+        </p>
+        <figure class="graph detail-graph" tabindex="0" aria-label="Scrollable forecast gate diagram">
+          <img src="diagrams/forecast-gate.svg?v=2" width="960" height="720" loading="lazy" alt="A key-aware clue with two predicted guesses is accepted only after legality and own-card checks. An unsafe first guess rejects the clue; an unsafe second guess shortens it to one." />
+          <figcaption>Figure 3. Forecast gate. Two words, no extra model calls.</figcaption>
+        </figure>
+      </section>
+
+      <section>
+        <h2><span>2</span> ClueCast</h2>
+        <p>
+          ClueCast has more time, so it uses a stronger gate. One model
+          proposes a clue and target set. Two independent, key-blind listener
+          simulations rank the board. Python combines their rankings, then
+          retries an unsafe clue, lowers its number when risk appears later,
+          or plays it unchanged. After three failed proposals, it leaves the
+          turn unchanged.
+        </p>
+        <figure class="graph detail-graph" tabindex="0" aria-label="Scrollable simulation gate diagram">
+          <img src="diagrams/sim-gate.svg?v=2" width="960" height="600" loading="lazy" alt="A model proposes a clue. Two key-blind listener rankings are combined. An unsafe first step retries or leaves the turn; later risk lowers the number; a clear path plays it." />
+          <figcaption>Figure 4. Sim gate. Independent listeners, then retry or wait.</figcaption>
+        </figure>
+      </section>
+
+      <figure class="table-wrap">
+        <table>
+          <thead>
+            <tr><th></th><th>Submission</th><th>ClueCast</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Clock</td><td>50s, then a legal fallback</td><td>3 attempts, then wait</td></tr>
+            <tr><td>Numbers</td><td>{1, 2}</td><td>Remaining own cards</td></tr>
+            <tr><td>Listener</td><td>Same-call forecast, two words</td><td>Two key-blind rankings</td></tr>
+            <tr><td>Guesser</td><td>Exact <i>n</i></td><td>Classic <i>n</i>+1</td></tr>
+          </tbody>
+        </table>
+        <figcaption>Table 1. Competition submission versus ClueCast.</figcaption>
+      </figure>
+
+      <p class="more">
+        <a href="https://github.com/edamame-labs/codenames-agent-edamame">Repository</a>
+        <a href="https://github.com/edamame-labs/codenames-agent-edamame/blob/main/docs/METHODOLOGY.md">Methodology</a>
+        <a href="https://github.com/edamame-labs/codenames-agent-edamame/blob/main/docs/EVALUATION.md">Evaluation</a>
+        <a href="https://arxiv.org/abs/2510.04542">Lehrach et al. · Google DeepMind · 2025</a>
+        <a href="https://github.com/cathrynlavery/diagram-design">diagram-design</a>
+      </p>
+    </main>
+
+    <footer>
+      Team Edamame · <a href="https://cog2026.org/competitions">IEEE CoG 2026</a>
+    </footer>
+  </body>
+</html>

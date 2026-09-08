@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parallel generation under a 50s wall clock</title>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f8fafc;
+      --color-ink:     #0f172a;
+      --color-muted:   #475569;
+      --color-accent:  #b45309;
+      --font-sans:     'Atkinson Hyperlegible', system-ui, sans-serif;
+      --font-serif:    'Crimson Pro', serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+    .frame { max-width: 1200px; width: 100%; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+    svg { width: 100%; min-width: 900px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Flowchart · Submission</p>
+    <h1>Parallel generation under a 50s wall clock</h1>
+    <svg viewBox="0 0 960 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="clock-title clock-desc">
+      <title id="clock-title">Parallel generation under a 50s wall clock</title>
+      <desc id="clock-desc">The board starts primary and backup clue requests together. A usable answer is gated by 50 seconds; otherwise a deterministic legal clue is played.</desc>
+      <defs>
+        <marker id="clock-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#475569"/></marker>
+        <marker id="clock-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b45309"/></marker>
+        <marker id="clock-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#1e3a5f"/></marker>
+      </defs>
+      <rect width="100%" height="100%" fill="#f8fafc"/>
+
+      <line x1="480" y1="88" x2="480" y2="120" stroke="#475569" stroke-width="1.2" marker-end="url(#clock-arrow)"/>
+      <line x1="480" y1="168" x2="480" y2="192" stroke="#475569" stroke-width="1.2" marker-end="url(#clock-arrow)"/>
+      <line x1="580" y1="240" x2="640" y2="240" stroke="#475569" stroke-width="1.2" marker-end="url(#clock-arrow)"/>
+      <line x1="480" y1="288" x2="480" y2="328" stroke="#b45309" stroke-width="1.4" marker-end="url(#clock-arrow-accent)"/>
+
+      <rect x="492" y="300" width="32" height="12" rx="2" fill="#f8fafc"/>
+      <text x="508" y="309" fill="#b45309" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">YES</text>
+      <rect x="596" y="220" width="24" height="12" rx="2" fill="#f8fafc"/>
+      <text x="608" y="229" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">NO</text>
+
+      <rect x="400" y="40" width="160" height="48" rx="24" fill="rgba(15,23,42,0.03)" stroke="rgba(15,23,42,0.30)" stroke-width="1"/>
+      <text x="480" y="68" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">Board</text>
+
+      <rect x="400" y="120" width="160" height="48" rx="6" fill="#ffffff" stroke="#0f172a" stroke-width="1"/>
+      <text x="480" y="144" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">Primary + backup</text>
+      <text x="480" y="156" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">45s + 15s</text>
+
+      <polygon points="480,192 580,240 480,288 380,240" fill="#ffffff" stroke="#0f172a" stroke-width="1"/>
+      <text x="480" y="236" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">Ready by 50s?</text>
+      <text x="480" y="252" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">first ready call</text>
+
+      <rect x="640" y="216" width="160" height="48" rx="24" fill="rgba(15,23,42,0.03)" stroke="rgba(15,23,42,0.30)" stroke-width="1"/>
+      <text x="720" y="244" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">Legal fallback</text>
+
+      <rect x="400" y="328" width="160" height="56" rx="28" fill="rgba(180,83,9,0.08)" stroke="#b45309" stroke-width="1"/>
+      <text x="480" y="356" fill="#0f172a" font-size="12" font-weight="700" font-family="'Atkinson Hyperlegible', sans-serif" text-anchor="middle">Gate</text>
+      <text x="480" y="372" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">forecast path</text>
+
+      <line x1="40" y1="432" x2="920" y2="432" stroke="rgba(15,23,42,0.12)" stroke-width="0.8"/>
+      <text x="40" y="448" fill="#475569" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">LEGEND · SHAPE CARRIES TYPE</text>
+      <rect x="40" y="464" width="24" height="12" rx="6" fill="rgba(15,23,42,0.03)" stroke="rgba(15,23,42,0.30)" stroke-width="1"/>
+      <text x="72" y="474" fill="#475569" font-size="8" font-family="'Atkinson Hyperlegible', sans-serif">Start / end</text>
+      <rect x="200" y="464" width="24" height="12" rx="2" fill="#ffffff" stroke="#0f172a" stroke-width="1"/>
+      <text x="232" y="474" fill="#475569" font-size="8" font-family="'Atkinson Hyperlegible', sans-serif">Step</text>
+      <polygon points="372,470 384,464 396,470 384,476" fill="#ffffff" stroke="#0f172a" stroke-width="1"/>
+      <text x="408" y="474" fill="#475569" font-size="8" font-family="'Atkinson Hyperlegible', sans-serif">Decision</text>
+      <line x1="520" y1="470" x2="548" y2="470" stroke="#b45309" stroke-width="1.4" marker-end="url(#clock-arrow-accent)"/>
+      <text x="556" y="474" fill="#475569" font-size="8" font-family="'Atkinson Hyperlegible', sans-serif">Play path</text>
+    </svg>
+  </div>
+</body>
+</html>

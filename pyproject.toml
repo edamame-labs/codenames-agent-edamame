@@ -1,0 +1,22 @@
+[project]
+name = "codenames-agent-edamame"
+version = "0.1.0"
+description = "Team Edamame's 1st-overall CoG 2026 submission and ClueCast online game"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+dependencies = [
+    # Imported by the organizer-owned framework used by the evaluation runner.
+    "colorama>=0.4.6,<1",
+    "openai>=2.48,<3",
+    "pydantic>=2.13,<3",
+]
+
+[dependency-groups]
+dev = [
+    # ClueCast token encryption; Vercel also reads root requirements.txt.
+    "cryptography>=42,<46",
+]
+
+[tool.uv]
+package = false
